@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Grid, Typography } from "@mui/material";
+import Home from "./components/Home";
+import { Outlet, createBrowserRouter } from "react-router-dom";
+import Header from "./components/Header";
+import TrackWorkout from "./components/TrackWorkout";
+import TrackMeals from "./components/TrackMeals";
+import ImportantNotes from "./components/ImportantNotes";
+import TrackSteps from "./components/TrackSteps";
+import TrackSummary from "./components/TrackSummary";
+import TrackSleep from "./components/TrackSleep";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Grid container>
+          <Grid xs={0} md={3}></Grid>
+          <Grid xs={12} md={6}>
+            <Header />
+            <Outlet />
+          </Grid>
+          <Grid xs={0} md={3}></Grid>
+        </Grid>
     </div>
   );
 }
+
+export const appRouter = createBrowserRouter([
+  {
+      path:"/",
+      element:<App />,
+      children:[
+        {path:"/", element:<Home />},
+        {path:"/today_workout", element:<TrackWorkout />},
+        {path:"/today_meals", element:<TrackMeals />},
+        {path:"/imp_notes", element:<ImportantNotes />},
+        {path:"/today_steps", element:<TrackSteps />},
+        {path:"/today_summary" , element:<TrackSummary />},
+        {path:"/today_sleep" , element:<TrackSleep />}
+      ]
+}])
 
 export default App;

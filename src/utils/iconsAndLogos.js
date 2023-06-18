@@ -1,0 +1,1 @@
+export const MAIN_LOGO  = "https://img.freepik.com/free-vector/sport-fitness-tracker-abstract-concept-vector-illustration-activity-band-health-monitor-wrist-worn-device-application-running-cycling-every-day-training-abstract-metaphor_335657-1454.jpg?w=740&t=st=1687023100~exp=1687023700~hmac=c4b32c6abdaa9c2863dea6e7c274cba6cfde81c18741b462064c7c258d10fa04"
