@@ -1,0 +1,33 @@
+.workout_overAll{
+
+}
+
+.workout_accordionContainer{
+    margin-top: 20px !important;
+    width: 70%;
+    margin: auto;
+}
+
+.workout_addButton{
+    margin-top:20px !important;
+    text-align: right;
+    margin-right: 30px;
+}
+
+.workout_accordian{
+    margin-top: 20px;
+}
+
+.workout__addExercise-input{
+    display: flex;
+    margin-top: 20px !important;
+    width: 70%;
+    margin: auto;
+    align-items: end;
+}
+
+.workout_headingAndExpandButton{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}

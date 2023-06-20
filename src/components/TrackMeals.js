@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import useDate from "../utils/useDate";
 
-const TrackMeals = () => {
+const TrackMeals = ({ type }) => {
+  const dateString = useDate({ type: "Meals" });
+
   return (
-    <div>TrackMeals</div>
-  )
-}
+    <div>
+      <div>{type && type == "summary" ? null : dateString}</div>
+    </div>
+  );
+};
 
-export default TrackMeals
+export default TrackMeals;

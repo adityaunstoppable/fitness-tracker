@@ -1,0 +1,9 @@
+.sets_input-and-button{
+    display: flex;
+    align-items: end;
+    margin-top: 5px;
+}
+
+.sets_add-set-button{
+ text-align: end;
+}
