@@ -1,61 +1,134 @@
-import { Accordion, Button, TextField, Typography } from "@mui/material";
+import {
+  Accordion,
+  Button,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
+import _ from "lodash";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PreviewIcon from "@mui/icons-material/Preview";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import React, { useEffect, useState } from "react";
 import useDate from "../utils/useDate";
 import "./TrackWorkout.css";
 import SetsTable from "./SetsTable";
+import { useDispatch, useSelector } from "react-redux";
+import { setTodayExercises } from "../utils/todayContentSlice";
+import { saveDataByDate } from "../utils/firebaseServices";
 
 const TrackWorkout = ({ type }) => {
   let dateString = useDate({ type: "Workout" });
   const [exercisesOverall, setExercisesOverall] = useState([]);
   const [showAddExerciseField, setShowAddExerciseField] = useState(false);
   const [addExerciseString, setAddExerciseString] = useState("");
-  const [expandAllAcc, setExpandAllAcc] = useState(false);
+  const [expandState, setExpandState] = useState({});
+  const dispatch = useDispatch();
+  const exerciseDataFromRedux = useSelector((state) => state.todayContent);
 
   const addExercise = () => {
     let exerciseName = addExerciseString;
     if (exerciseName) {
-      setExercisesOverall((prevState) => [
-        ...prevState,
-        { name: exerciseName },
-      ]);
+      let exContent = { name: exerciseName, sets: [], notes: "" };
+      dispatch(setTodayExercises(exContent));
+      setExpandState((prevState) => ({ ...prevState, [exerciseName]: true }));
     }
     setShowAddExerciseField(false);
     setAddExerciseString("");
   };
 
+  useEffect(() => {
+    if (exerciseDataFromRedux?.exercises.length > 0) {
+      setExercisesOverall(exerciseDataFromRedux.exercises);
+    }
+  }, [showAddExerciseField]);
+
+  useEffect(() => {
+    let expandStateFiller = {};
+    if (exerciseDataFromRedux?.exercises.length > 0) {
+      exerciseDataFromRedux.exercises.map((eachEx) => {
+        expandStateFiller[eachEx.name] = true;
+      });
+    }
+    setExpandState(expandStateFiller);
+  }, []);
+
   const cancelAddExercise = () => {
     setShowAddExerciseField(false);
     setAddExerciseString("");
   };
-  console.log("ADItya checking exov", exercisesOverall);
 
-  const expandAllAccordions = () => {
-    setExpandAllAcc(true);
+  const expandOrHideAllAccordions = (type) => {
+    let newObj = _.cloneDeep(expandState);
+    for (let key in newObj) {
+      if (type == "expand") {
+        newObj[key] = true;
+      } else {
+        newObj[key] = false;
+      }
+    }
+    setExpandState(newObj);
+  };
+
+  const changeSpecificExpandState = (exerciseName) => {
+    let newObj = _.cloneDeep(expandState);
+    for (let key in newObj) {
+      if (key == exerciseName.name) {
+        newObj[key] = !newObj[key];
+      }
+    }
+    setExpandState(newObj);
+  };
+
+  const saveDataInFirestore = () => {
+    if (exerciseDataFromRedux.date !== "") {
+      let dateKey = exerciseDataFromRedux.date;
+      let data = exerciseDataFromRedux;
+
+      saveDataByDate(dateKey, data);
+    }
   };
 
   return (
     <div className="workout_overAll">
       <div className="workout_headingAndExpandButton">
         {type && type == "summary" ? null : dateString}
-        <Button
-          onClick={expandAllAccordions}
-          style={{ marginLeft: "10px", height: "30px" }}
-          size="small"
-          variant="outlined"
-        >
-          Expand All
-        </Button>
+        {exercisesOverall.length > 0 && (
+          <div>
+            <IconButton
+              onClick={() => expandOrHideAllAccordions("expand")}
+              style={{ marginLeft: "10px", height: "30px" }}
+              size="small"
+              variant="outlined"
+            >
+              <PreviewIcon color="secondary" />
+            </IconButton>
+            <IconButton
+              onClick={() => expandOrHideAllAccordions("hide")}
+              style={{ marginLeft: "10px", height: "30px" }}
+              size="small"
+              variant="outlined"
+            >
+              <VisibilityOffIcon color="secondary" />
+            </IconButton>
+          </div>
+        )}
       </div>
 
       <div className="workout_accordionContainer">
         {exercisesOverall?.map((eachExercise, i) => (
           <div key={i} className="workout_accordian">
-            <Accordion expanded={expandAllAcc}>
+            <Accordion expanded={expandState[eachExercise?.name]}>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={
+                  <IconButton>
+                    <ExpandMoreIcon
+                      onClick={() => changeSpecificExpandState(eachExercise)}
+                    />
+                  </IconButton>
+                }
                 aria-controls={eachExercise.name}
                 id={eachExercise.name}
               >
@@ -110,6 +183,19 @@ const TrackWorkout = ({ type }) => {
             variant="outlined"
           >
             Add Exercise +
+          </Button>
+        </div>
+      )}
+
+      {exercisesOverall.length > 0 && (
+        <div style={{ marginTop: "20px" , textAlign:"center" }}>
+          <Button
+            onClick={saveDataInFirestore}
+            size="small"
+            variant="outlined"
+            color="secondary"
+          >
+            Save Workout
           </Button>
         </div>
       )}

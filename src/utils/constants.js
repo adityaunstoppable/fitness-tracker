@@ -1,14 +1,14 @@
 export const listItems = [
   { name: "Home", path: "" },
   { name: "Track today's workout", path: "today_workout" },
-  { name: "Track Today's Meals", path: "today_meals" },
+  // { name: "Track Today's Meals", path: "today_meals" },
   { name: "Track Today's Important Notes", path: "imp_notes" },
   { name: "Track Today's Steps", path: "today_steps" },
   { name: "Track Today's Sleep", path: "today_sleep" },
   { name: "Today's Summary", path: "today_summary" },
 ];
 
-export const convertEpochToFormattedDate = (epochValue , type) => {
+export const convertEpochToFormattedDate = (epochValue, type) => {
   const date = new Date(epochValue);
 
   // Extract the individual components of the date
@@ -23,10 +23,7 @@ export const convertEpochToFormattedDate = (epochValue , type) => {
   } else {
     formattedDate = `${month}-${day}-${year}`;
   }
-
-  console.log("Formatted Date:", formattedDate);
   return formattedDate;
-
 };
 
 export const convertStringDateToLocale = (dateString) => {
@@ -38,45 +35,11 @@ export const convertStringDateToLocale = (dateString) => {
 
   // Convert the date to the desired format
   let formattedDate = dateObj.toLocaleDateString("en-US", options);
-  formattedDate = formattedDate.replace("/" ,"-").replace("/" ,"-")
-  return formattedDate
+  formattedDate = formattedDate.replace("/", "-").replace("/", "-");
+  return formattedDate;
 };
 
-const dummyOneDayData = {
-  "06-19-2023": {
-    exercise: {
-      1: {
-        "Chest Press": {
-          set1: { w: 50, r: 10 },
-          set2: { w: 40, r: 10 },
-          set3: { w: 40, r: 8 },
-        },
-      },
-      2: {
-        "Shoulder Overhead Dumbell Press": {
-          set1: { w: 20, r: 8 },
-          set2: { w: 20, r: 9 },
-          set2: { w: 15, r: 10 },
-        },
-      },
-      3: {
-        "Tricep Extension": {
-          set1: { w: 20, r: 15 },
-          set1: { w: 20, r: 15 },
-          set1: { w: 20, r: 15 },
-        },
-      },
-      4: {
-        "Short Grip Chest Press ": {
-          set1: { w: 30, r: 12 },
-          set1: { w: 30, r: 12 },
-          set1: { w: 30, r: 12 },
-        },
-      },
-    },
-    meals: {},
-    sleep: { hours: 8 },
-    steps: { count: 15000 },
-    importantNotes: { text: "My body weight was 75kgs today" },
-  },
-};
+export const hoursArray = [
+  1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10,
+  10.5, 11, 11.5, 12,  13, 14,  15,  16,  17, 18,
+];

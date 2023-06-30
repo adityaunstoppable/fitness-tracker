@@ -1,3 +1,5 @@
+// summary, disabled sets design and edit feature,
+
 import React, { useEffect, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -8,18 +10,21 @@ import TrackSummary from "./TrackSummary";
 import { convertEpochToFormattedDate, convertStringDateToLocale } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setDateState } from "../utils/dateSlice";
+import { setTodayDate } from "../utils/todayContentSlice";
 const Home = () => {
   let today = Date.now();
   let todayFormatted = convertEpochToFormattedDate(today)
 
   const [date, setDate] = useState(dayjs(todayFormatted));
-  const dateFromRedux = useSelector(state => state.date)
-  console.log("dateFromRedux" , dateFromRedux)
   const dispatch = useDispatch()
   
   useEffect(() => {
     dispatch(setDateState(convertStringDateToLocale(date)))
   },[date])
+
+  useEffect(() => {
+    dispatch(setTodayDate({ todayDate:convertStringDateToLocale(dayjs(todayFormatted))}))
+  },[])
 
   return (
     <div>
@@ -43,9 +48,9 @@ const Home = () => {
       ></div>
 
       {/* Date summary */}
-      <div className="home_summary">
+      {/* <div className="home_summary">
         <TrackSummary />
-      </div>
+      </div> */}
     </div>
   );
 };
