@@ -36,6 +36,7 @@ const todayContentSlice = createSlice({
         state.exercises = state.exercises?.map(eachEx => {
             if(eachEx.name === action.payload.exerciseName){
                 eachEx.notes = action.payload.impNotesString
+                
             }
             return eachEx
         })

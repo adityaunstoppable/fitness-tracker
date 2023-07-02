@@ -5,9 +5,7 @@ const TrackMeals = ({ type }) => {
   const dateString = useDate({ type: "Meals" });
 
   return (
-    <div>
-      <div>{type && type == "summary" ? null : dateString}</div>
-    </div>
+    <div>{type && type == "summary" ? null : dateString}</div>
   );
 };
 

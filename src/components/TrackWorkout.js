@@ -47,26 +47,6 @@ const TrackWorkout = ({ type }) => {
   };
 
 
-  // useEffect(() => {
-  //   if (dataFromFirestore?.length > 0 ) {
-  //     dataFromFirestore.map((doc) => {
-  //       if (doc.date == homeStateFromRedux?.date) {
-  //         if(doc.exercises && doc.exercises.length >0){
-  //           dispatch(setTodayExercisesFromFirestore(doc.exercises))
-  //         }
-  //         if(doc.impNotes){
-  //           dispatch(setTodayImportantNotes(doc.impNotes))
-  //         }
-  //         if(doc.sleep){
-  //           dispatch(setTodaySleeps(doc.sleep))
-  //         }
-  //         if(doc.steps){
-  //           dispatch(setTodaySteps(doc.steps))
-  //         }
-  //       }
-  //     });
-  //   }
-  // }, [dataFromFirestore]);
 
   useEffect(() => {
     if (exerciseDataFromRedux?.exercises.length > 0) {

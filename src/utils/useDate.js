@@ -6,7 +6,6 @@ import {
 import { Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { setDateState } from "./dateSlice";
 import { setTodayDate } from "./todayContentSlice";
 
 const useDate = ({ type }) => {

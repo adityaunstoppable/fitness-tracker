@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTodaySteps } from "../utils/todayContentSlice";
 import "./TrackSteps.css";
 import _ from "lodash"
-
 import { saveDataByDate } from "../utils/firebaseServices";
 import { useNavigate } from "react-router-dom";
 import { openToast } from "../utils/toastSlice";

@@ -17,5 +17,4 @@ export const saveDataByDate = async (dateKey, data , openToastFn) => {
     } catch (error) {
       openToastFn(true , "Something went wrong !" , "error")
     }
-
   };

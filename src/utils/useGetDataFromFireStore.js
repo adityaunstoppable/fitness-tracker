@@ -16,7 +16,6 @@ const useGetDataFromFireStore = (collectionName) => {
       try {
         const collectionRef = firestore.collection(collectionName);
         const snapshot = await collectionRef.get();
-
         const fetchedData = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

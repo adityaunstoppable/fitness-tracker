@@ -24,7 +24,6 @@ const TrackSleep = ({ type }) => {
   const [showSaveButton, setShowSaveButton] = useState(true);
   const dispatch = useDispatch();
   const sleepStateFromRedux = useSelector((state) => state.todayContent);
-
   const history = useNavigate()
 
   useEffect(() => {

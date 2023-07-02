@@ -251,7 +251,7 @@ const Home = () => {
           })}
         </div>
       ) : (
-        <div >
+        <div>
           <div style={{ marginTop: "20px" }}>
             <Typography align="center" variant="h6" color="secondary">
               No Summary available for {selectedIndianDate}

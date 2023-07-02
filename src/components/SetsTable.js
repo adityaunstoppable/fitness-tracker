@@ -179,6 +179,7 @@ const SetsTable = ({ exerciseName, exerciseSetterFn, exercisesData }) => {
           variant="standard"
           defaultValue={impNotesString}
           onChange={(e) => setImpNotesString(e.target.value)}
+          
         />
         <IconButton
           onClick={() => addImportantNotes()}

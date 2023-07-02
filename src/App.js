@@ -36,7 +36,6 @@ export const appRouter = createBrowserRouter([
         {path:"/today_meals", element:<TrackMeals />},
         {path:"/imp_notes", element:<ImportantNotes />},
         {path:"/today_steps", element:<TrackSteps />},
-        // {path:"/today_summary" , element:<TrackSummary />},
         {path:"/today_sleep" , element:<TrackSleep />}
       ]
 }])

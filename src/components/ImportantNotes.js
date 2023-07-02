@@ -14,7 +14,6 @@ const ImportantNotes = ({ type }) => {
 
   const [impString, setImpString] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
-
   const history = useNavigate()
   const dispatch = useDispatch();
   const impNotesStateFromRedux = useSelector((state) => state.todayContent);

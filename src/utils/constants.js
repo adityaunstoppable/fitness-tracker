@@ -16,7 +16,7 @@ export const convertEpochToFormattedDate = (epochValue, type) => {
   const month = date.getMonth() + 1; // Add 1 since month is zero-based
   const day = date.getDate();
 
-  // Format the date as "dd-mm-yyyy" or "mm-dd-yyyy" based on the 'type' parameter
+  // Format the date asx "dd-mm-yyyy" or "mm-dd-yyyy" based on the 'type' parameter
   let formattedDate;
   if (type === "Indian") {
     formattedDate = `${day}-${month}-${year}`;

@@ -40,7 +40,8 @@ const Header = () => {
           <ul className="header_ListParent">
             {listItems.map((eachItem) => (
               <li onClick={() => setToggleDrawer(false)} className="header_ListItem">
-                <Link to={"/" + eachItem.path}>
+                <Link 
+                to={"/" + eachItem.path}>
                   <Button >
                     {eachItem.name}
                   </Button>
