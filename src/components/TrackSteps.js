@@ -7,12 +7,15 @@ import "./TrackSteps.css";
 import _ from "lodash"
 
 import { saveDataByDate } from "../utils/firebaseServices";
+import { useNavigate } from "react-router-dom";
+import { openToast } from "../utils/toastSlice";
 const TrackSteps = ({ type }) => {
   let dateString = useDate({ type: "Steps" });
 
   const [stepsString, setStepsString] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const history = useNavigate()
   const dispatch = useDispatch();
   const stepsStateFromRedux = useSelector((state) => state.todayContent);
   const saveSteps = () => {
@@ -23,7 +26,14 @@ const TrackSteps = ({ type }) => {
       let dateKey  = stepsStateFromRedux.date
       let data = _.cloneDeep(stepsStateFromRedux)
       data.steps = stepsString
-      saveDataByDate(dateKey , data)
+      const openToastFn = (open , message, severity) => {
+        dispatch(openToast({open , message , severity}))
+        setTimeout(() => {
+          dispatch(openToast({open:false , message:"" , severity:""}))
+        }, 4000);
+      }
+      saveDataByDate(dateKey, data , openToastFn);
+      history("/")
     }
   };
 

@@ -15,6 +15,8 @@ import { hoursArray } from "../utils/constants";
 import { setTodaySleeps } from "../utils/todayContentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { saveDataByDate } from "../utils/firebaseServices";
+import { openToast } from "../utils/toastSlice";
+import { useNavigate } from "react-router-dom";
 
 const TrackSleep = ({ type }) => {
   let dateString = useDate({ type: "Sleep" });
@@ -22,6 +24,8 @@ const TrackSleep = ({ type }) => {
   const [showSaveButton, setShowSaveButton] = useState(true);
   const dispatch = useDispatch();
   const sleepStateFromRedux = useSelector((state) => state.todayContent);
+
+  const history = useNavigate()
 
   useEffect(() => {
     if (sleepStateFromRedux.sleep !== "") {
@@ -43,7 +47,14 @@ const TrackSleep = ({ type }) => {
       let dateKey  = sleepStateFromRedux.date
       let data = _.cloneDeep(sleepStateFromRedux)
       data.sleep = sleepHours
-      saveDataByDate(dateKey , data)
+      const openToastFn = (open , message, severity) => {
+        dispatch(openToast({open , message , severity}))
+        setTimeout(() => {
+          dispatch(openToast({open:false , message:"" , severity:""}))
+        }, 4000);
+      }
+      saveDataByDate(dateKey, data , openToastFn);
+      history("/")
     }
   };
 

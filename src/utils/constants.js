@@ -5,7 +5,7 @@ export const listItems = [
   { name: "Track Today's Important Notes", path: "imp_notes" },
   { name: "Track Today's Steps", path: "today_steps" },
   { name: "Track Today's Sleep", path: "today_sleep" },
-  { name: "Today's Summary", path: "today_summary" },
+  // { name: "Today's Summary", path: "today_summary" },
 ];
 
 export const convertEpochToFormattedDate = (epochValue, type) => {

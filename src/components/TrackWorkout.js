@@ -18,6 +18,10 @@ import SetsTable from "./SetsTable";
 import { useDispatch, useSelector } from "react-redux";
 import { setTodayExercises } from "../utils/todayContentSlice";
 import { saveDataByDate } from "../utils/firebaseServices";
+import Toaster from "./Toaster";
+import { openToast } from "../utils/toastSlice";
+import { useNavigate } from "react-router-dom";
+import useGetDataFromFireStore from "../utils/useGetDataFromFireStore";
 
 const TrackWorkout = ({ type }) => {
   let dateString = useDate({ type: "Workout" });
@@ -25,8 +29,11 @@ const TrackWorkout = ({ type }) => {
   const [showAddExerciseField, setShowAddExerciseField] = useState(false);
   const [addExerciseString, setAddExerciseString] = useState("");
   const [expandState, setExpandState] = useState({});
+
+  const history = useNavigate();
   const dispatch = useDispatch();
   const exerciseDataFromRedux = useSelector((state) => state.todayContent);
+  // const dataFromFirestore = useGetDataFromFireStore("dateContent");
 
   const addExercise = () => {
     let exerciseName = addExerciseString;
@@ -38,6 +45,28 @@ const TrackWorkout = ({ type }) => {
     setShowAddExerciseField(false);
     setAddExerciseString("");
   };
+
+
+  // useEffect(() => {
+  //   if (dataFromFirestore?.length > 0 ) {
+  //     dataFromFirestore.map((doc) => {
+  //       if (doc.date == homeStateFromRedux?.date) {
+  //         if(doc.exercises && doc.exercises.length >0){
+  //           dispatch(setTodayExercisesFromFirestore(doc.exercises))
+  //         }
+  //         if(doc.impNotes){
+  //           dispatch(setTodayImportantNotes(doc.impNotes))
+  //         }
+  //         if(doc.sleep){
+  //           dispatch(setTodaySleeps(doc.sleep))
+  //         }
+  //         if(doc.steps){
+  //           dispatch(setTodaySteps(doc.steps))
+  //         }
+  //       }
+  //     });
+  //   }
+  // }, [dataFromFirestore]);
 
   useEffect(() => {
     if (exerciseDataFromRedux?.exercises.length > 0) {
@@ -55,6 +84,8 @@ const TrackWorkout = ({ type }) => {
     setExpandState(expandStateFiller);
   }, []);
 
+
+  
   const cancelAddExercise = () => {
     setShowAddExerciseField(false);
     setAddExerciseString("");
@@ -86,8 +117,14 @@ const TrackWorkout = ({ type }) => {
     if (exerciseDataFromRedux.date !== "") {
       let dateKey = exerciseDataFromRedux.date;
       let data = exerciseDataFromRedux;
-
-      saveDataByDate(dateKey, data);
+      const openToastFn = (open, message, severity) => {
+        dispatch(openToast({ open, message, severity }));
+        setTimeout(() => {
+          dispatch(openToast({ open: false, message: "", severity: "" }));
+        }, 4000);
+      };
+      saveDataByDate(dateKey, data, openToastFn);
+      history("/");
     }
   };
 
@@ -188,7 +225,7 @@ const TrackWorkout = ({ type }) => {
       )}
 
       {exercisesOverall.length > 0 && (
-        <div style={{ marginTop: "20px" , textAlign:"center" }}>
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
           <Button
             onClick={saveDataInFirestore}
             size="small"

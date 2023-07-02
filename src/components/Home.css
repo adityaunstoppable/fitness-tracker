@@ -1,7 +1,40 @@
-.home_calendar{
-    margin-top: 30px;
+.home_calendar {
+  margin-top: 30px;
 }
 
-.home_summary{
-    margin-top: 20px;
+.home_summary {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.summary_otherInfosTable {
+  width: 80%;
+  margin: auto;
+}
+
+.summary_workoutHeading {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.summary_workoutCard {
+  width: 80%;
+  padding: 0px !important;
+  margin: auto;
+  margin-top: 20px !important;
+}
+
+.summary_workoutHeading{
+    margin-top: 10px;
+}
+
+.summary_workoutSetsNotes{
+    margin-top: 10px;
+}
+
+.summary_workoutSets {
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(237, 238, 238);
+  padding: 10px;
 }

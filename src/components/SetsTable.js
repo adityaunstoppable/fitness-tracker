@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import "./SetsTable.css";
 import {
+  editTodayExercisesSets,
   setTodayExerciseNotes,
   setTodayExercises,
   setTodayExericeSets,
@@ -32,6 +33,25 @@ const SetsTable = ({ exerciseName, exerciseSetterFn, exercisesData }) => {
     });
     setThisExerDataSets(thisExData);
   }, [displayAddSetField]);
+
+  useEffect(() => {
+    let thisExData = [];
+    exerciseDataFromRedux.exercises?.map((eachExData) => {
+      if (eachExData.name === exerciseName) {
+        thisExData = eachExData.sets;
+        setImpNotesString(eachExData.notes)
+      }
+    });
+    let tempEditableState = {}
+    if(thisExData.length > 0){
+      thisExData?.map((eachSet,i) => {
+        let string = eachSet[`Set${i+1}`]
+        tempEditableState[i+1] = {isDisable : true , string }
+      })
+    }
+    setEditableSetState(tempEditableState)
+    setThisExerDataSets(thisExData);
+  },[])
 
   const addSetDisplay = () => {
     setDisplayAddSetField(true);
@@ -61,7 +81,7 @@ const SetsTable = ({ exerciseName, exerciseSetterFn, exercisesData }) => {
     let editableSetsCopy = _.cloneDeep(editableSetState);
     editableSetsCopy[setNum] = { ...editableSetsCopy[setNum]  , isDisable: true};
     setEditableSetState(editableSetsCopy);
-    dispatch(setTodayExericeSets({ setNum, setString :editableSetsCopy[setNum.string], exerciseName }));
+    dispatch(editTodayExercisesSets({ setNum, setString :editableSetsCopy[setNum]["string"], exerciseName }));
   }
 
   const setEditingFieldString = (setNum , value) => {
@@ -74,7 +94,6 @@ const SetsTable = ({ exerciseName, exerciseSetterFn, exercisesData }) => {
     
   }
 
-  console.log("ADITYA" , editableSetState)
 
   return (
     <div>
@@ -158,6 +177,7 @@ const SetsTable = ({ exerciseName, exerciseSetterFn, exercisesData }) => {
           id={`${exerciseName}-impNotes`}
           label={"Important Notes (Always Editable)"}
           variant="standard"
+          defaultValue={impNotesString}
           onChange={(e) => setImpNotesString(e.target.value)}
         />
         <IconButton

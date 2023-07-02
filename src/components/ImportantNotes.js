@@ -6,6 +6,8 @@ import { setTodayImportantNotes } from "../utils/todayContentSlice";
 import "./ImportantNotes.css";
 import { saveDataByDate } from "../utils/firebaseServices";
 import _ from "lodash";
+import { openToast } from "../utils/toastSlice";
+import { useNavigate } from "react-router-dom";
 
 const ImportantNotes = ({ type }) => {
   let dateString = useDate({ type: "Important Notes" });
@@ -13,6 +15,7 @@ const ImportantNotes = ({ type }) => {
   const [impString, setImpString] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const history = useNavigate()
   const dispatch = useDispatch();
   const impNotesStateFromRedux = useSelector((state) => state.todayContent);
   const saveImpNotes = () => {
@@ -23,7 +26,14 @@ const ImportantNotes = ({ type }) => {
       let dateKey = impNotesStateFromRedux.date;
       let data = _.cloneDeep(impNotesStateFromRedux);
       data.impNotes = impString;
-      saveDataByDate(dateKey, data);
+      const openToastFn = (open , message, severity) => {
+        dispatch(openToast({open , message , severity}))
+        setTimeout(() => {
+          dispatch(openToast({open:false , message:"" , severity:""}))
+        }, 4000);
+      }
+      saveDataByDate(dateKey, data , openToastFn);
+      history("/")
     }
   };
 
