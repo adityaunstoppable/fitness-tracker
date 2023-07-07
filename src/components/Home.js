@@ -67,7 +67,7 @@ const Home = () => {
       let parts = dateStateFromRedux.selectedDate?.split("-");
       setSelectedIndianDate(`${parts[1]}-${parts[0]}-${parts[2]}`);
     }
-  }, [dateStateFromRedux]);
+  }, [dateStateFromRedux , dataFromFirestore]);
 
   useEffect(() => {
     dispatch(
@@ -191,7 +191,7 @@ const Home = () => {
                     align="center"
                   >
                     {selectedDateData?.impNotes != ""
-                      ? `${selectedDateData?.impNotes} hours`
+                      ? `${selectedDateData?.impNotes}`
                       : "NA"}{" "}
                   </TableCell>
                 </TableBody>
