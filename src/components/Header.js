@@ -12,11 +12,12 @@ import {
   Typography,
 } from "@mui/material";
 import { MAIN_LOGO } from "../utils/iconsAndLogos";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { listItems } from "../utils/constants";
 
 const Header = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
+  const navigateTo = useNavigate()
 
   return (
     <div className="header_overAll">
@@ -27,8 +28,8 @@ const Header = () => {
 
       {/* logo and quote */}
       <div className="header_logo-and-heading">
-        <img src={MAIN_LOGO} className="header_logo" />
-        <Typography vairant="h3">FITNESS TRACKER BY ADITYA</Typography>
+        <img onClick={() => navigateTo('/')} src={MAIN_LOGO} className="header_logo cursor-pointer z-10" />
+        <Typography vairant="h3">TRACK IT DOWN</Typography>
       </div>
 
       {/* drawer */}

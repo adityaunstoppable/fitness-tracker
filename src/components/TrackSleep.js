@@ -80,6 +80,22 @@ const TrackSleep = ({ type }) => {
               value={sleepHours}
               label="Hours"
               onChange={(e) => handleChange(e.target.value)}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 400,
+                  },
+                },
+                getContentAnchorEl: null, // To disable the default anchor positioning
+                anchorOrigin: {
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                },
+                transformOrigin: {
+                  vertical: 'top',
+                  horizontal: 'left',
+                },
+              }}
             >
               {hoursArray.map((val) => (
                 <MenuItem value={val}>{val}</MenuItem>

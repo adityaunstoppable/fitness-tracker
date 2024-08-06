@@ -10,10 +10,11 @@ import TrackSummary from "./TrackSummary";
 import {
   convertEpochToFormattedDate,
   convertStringDateToLocale,
+  listItems,
 } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setDateState } from "../utils/dateSlice";
-import _, { each } from "lodash";
+import _ from "lodash";
 import {
   setTodayDate,
   setTodayExercisesFromFirestore,
@@ -35,18 +36,21 @@ import {
   Typography,
 } from "@mui/material";
 import TrackWorkout from "./TrackWorkout";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   let today = Date.now();
   let todayFormatted = convertEpochToFormattedDate(today);
 
   const [date, setDate] = useState(dayjs(todayFormatted));
   const [selectedIndianDate, setSelectedIndianDate] = useState("");
-
+  const [isTodaySelected, setIsTodaySelected] = useState(false);
   const [selectedDateData, setSelectedDateData] = useState({});
   const dispatch = useDispatch();
+  const navigateTo = useNavigate()
   const dataFromFirestore = useGetDataFromFireStore("dateContent");
   const homeStateFromRedux = useSelector((state) => state.todayContent);
   const dateStateFromRedux = useSelector((state) => state.date);
+
   useEffect(() => {
     dispatch(setDateState(convertStringDateToLocale(date)));
   }, [date]);
@@ -66,8 +70,16 @@ const Home = () => {
     if (dateStateFromRedux.selectedDate != "") {
       let parts = dateStateFromRedux.selectedDate?.split("-");
       setSelectedIndianDate(`${parts[1]}-${parts[0]}-${parts[2]}`);
+      if (
+        dateStateFromRedux.selectedDate ===
+        convertStringDateToLocale(todayFormatted)
+      ) {
+        setIsTodaySelected(true);
+      } else {
+        setIsTodaySelected(false);
+      }
     }
-  }, [dateStateFromRedux , dataFromFirestore]);
+  }, [dateStateFromRedux, dataFromFirestore]);
 
   useEffect(() => {
     dispatch(
@@ -122,7 +134,7 @@ const Home = () => {
         style={{
           height: "1px",
           width: "50%",
-          backgroundColor: "#D3D3D3	",
+          backgroundColor: "#D3D3D3 ",
           margin: "auto",
         }}
       ></div>
@@ -252,10 +264,25 @@ const Home = () => {
         </div>
       ) : (
         <div>
-          <div style={{ marginTop: "20px" }}>
-            <Typography align="center" variant="h6" color="secondary">
-              No Summary available for {selectedIndianDate}
-            </Typography>
+          <div>
+            {isTodaySelected ? (
+              <div className="flex flex-wrap text-center justify-center m-auto w-[90%] ">
+                {listItems.map((eachPath) => {
+                  if(eachPath.name !== 'Home'){
+                    return (
+                      <button onClick={() => navigateTo(`/${eachPath.path}`)} className="px-3 z-10 w-64 cursor-pointer  hover:bg-yellow-800 hover:text-white py-3 mr-10 mt-10 bg-transparent border rounded-lg ">
+                        {eachPath.name}
+                      </button>
+                    );
+                  }
+                  
+                })}
+              </div>
+            ) : (
+              <div style={{textAlign:'center', marginTop: '50px' , marginLeft:'-20px'}}>
+              <Typography color='secondary'>{selectedIndianDate}</Typography>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -264,3 +291,4 @@ const Home = () => {
 };
 
 export default Home;
+
